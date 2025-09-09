@@ -58,5 +58,7 @@ model: zai/model_name
   - Setup as `qwen.md` in agents folder
 
 ## Usage
-- Agents are designed for code review and planning (read-only mode)
-- Multi command runs multiple agents in parallel to find the best solution
+To use this, you need to restart opencode if you haven't already and then run the slash command with a prompt such as:
+```
+/multi we are facing x issue can you check whats wrong?
+```
