@@ -1,5 +1,7 @@
 # Open Code Parallel Agents
 
+Open Code is an open-source coding tool that supports almost any model in the market. Unlike other coding tools such as Claude Code that support multiple sub-agents in parallel but are limited to their own model (Claude), Open Code allows you to run multiple sub-agents in parallel using different models. This approach can be much more effective than single-model solutions because different models have different understandings and perspectives on problems. They can share their insights with the main agent, which then synthesizes a better solution. The point of this project is to get better responses by leveraging multiple models simultaneously, saving time and improving code quality.
+
 This repository contains agent templates and command configurations for running parallel agents in the Open Code system.
 
 ## Setup Instructions
