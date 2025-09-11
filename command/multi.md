@@ -7,7 +7,7 @@ agent: build
 
 • Based on this info: $ARGUMENTS
 • If the info is about fixing something in codebase or adding a new feature:
-  - Run @glm @deepseek @qwen agents in parallel
+  - Run @glm @deepseek @qwen agents in parallel (so yes you have to make several tool call at once )
   - Give them task to analyze codebase and come up with a plan (detailed plan with code blocks and places where edits need to be made with line numbers) to fix the issue or add the feature
 
 ## ANALYSIS AND VERIFICATION
