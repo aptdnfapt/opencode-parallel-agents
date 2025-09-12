@@ -64,3 +64,15 @@ To use this, you need to restart opencode if you haven't already and then run th
 ```
 /multi we are facing x issue can you check whats wrong?
 ```
+
+### Delegating Tasks to Sub-Agents
+You can also give tasks directly to sub-agents when:
+- The context of your main agent is filled up
+- The main agent model is making errors frequently
+
+**How to delegate in the prompt box:**
+```
+hey give this task to @agentname and tell him to fix this. give him detail info on what you have already tried
+```
+
+Replace `@agentname` with the actual agent name (e.g., `@deepseek`, `@glm`, `@qwen`).
