@@ -1,7 +1,7 @@
 ---
 description: General coding and planning agent
 mode: subagent
-model: zai/GLM-4.5
+model: zai/glm-4.5
 tools:
   write: true
   edit: true
