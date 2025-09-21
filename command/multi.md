@@ -5,9 +5,9 @@ agent: build
 
 ## WORKFLOW PROCESS
 
-• Based on this info: $ARGUMENTS
+• Based on this info(user said prompt): $ARGUMENTS
 • If the info is about fixing something in codebase or adding a new feature:
-  - Run @glm @deepseek @qwen agents in parallel (so yes you have to make several tool call at once )
+  - Run the agents that user mentions  in parallel (so yes you have to make several tool call at once )
   - Give them this STRICT instruction: "You are capable agents but for THIS SPECIFIC TASK you must NOT make any file changes, edits, or modifications. Your job is to analyze the codebase and create ONLY a detailed plan with code blocks showing where edits need to be made with line numbers. DO NOT execute any file operations - just provide the plan."
   - Give them task to analyze codebase and come up with a plan (detailed plan with code blocks and places where edits need to be made with line numbers) to fix the issue or add the feature
 

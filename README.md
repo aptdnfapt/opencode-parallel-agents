@@ -45,7 +45,8 @@ model: zai/model_name
 
 ### Multi-Agent Setup
 1. Rename your agent files in the `agent/` folder
-2. Mention them in `command/multi.md` with `@` sign (e.g., `@myagent @anotheragent`)
+2. The agents are now specified directly in your prompt using `@` signs (no need to edit `command/multi.md`)
+3. When using `/multi`, mention the agents you want to run in parallel in your initial prompt
 
 
 ## Important Links
@@ -62,8 +63,10 @@ model: zai/model_name
 ## Usage
 To use this, you need to restart opencode if you haven't already and then run the slash command with a prompt such as:
 ```
-/multi we are facing x issue can you check whats wrong?
+/multi @glm @deepseek @qwen we are facing x issue can you check whats wrong?
 ```
+
+**Important:** You must mention the agent names in your initial prompt using `@` signs. The multi-agent command will run only the agents you specify in parallel, allowing you to leverage multiple model perspectives simultaneously for more comprehensive analysis and better solutions.
 
 ### Delegating Tasks to Sub-Agents
 You can also give tasks directly to sub-agents when:
