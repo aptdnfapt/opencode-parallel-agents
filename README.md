@@ -21,15 +21,20 @@ jq -r 'to_entries[] | .key as $provider | .value.models | keys[] | select(contai
 read -p "Search model: " term; jq -r 'to_entries[] | .key as $provider | .value.models | keys[] | select(contains("'"$term"'")) | $provider + "/" + .' ~/.cache/opencode/models.json | head -20
 
 # 4. Pick the models you want and edit the template files and copy agent templates
-# Example: 
-cp agent/template.md ~/.config/opencode/agent/deepseek.md
-
-# 5. Edit each agent file - change model in frontmatter
+# Edit each agent file - change model in frontmatter
 # For OpenRouter: model: openrouter/provider/model_name
 # For OpenAI: model: openai/model_name
 # For DeepSeek: model: deepseek/model_name
 # For Qwen: model: qwen/model_name
 # btw you dont have to make 2 same agent.md if you want to run same agent.md in paralell such as maybe you want to run 3 glm agent in parallel thats fine and will work with one glm.md . no need to create 3 glm.md files . 
+nvim agent/template.md 
+mv agent/template.md agent/moodelname.md
+
+
+# copy the file to global config or ... on project .opencode/agent dir 
+# Example: 
+cp agent/template.md ~/.config/opencode/agent/deepseek.md
+
 
 # 6. Install the multi command
 cp command/multi.md ~/.config/opencode/command/
