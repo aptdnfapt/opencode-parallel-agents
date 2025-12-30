@@ -29,6 +29,7 @@ cp agent/template.md ~/.config/opencode/agent/deepseek.md
 # For OpenAI: model: openai/model_name
 # For DeepSeek: model: deepseek/model_name
 # For Qwen: model: qwen/model_name
+# btw you dont have to make 2 same agent.md if you want to run same agent.md in paralell such as maybe you want to run 3 glm agent in parallel thats fine and will work with one glm.md . no need to create 3 glm.md files . 
 
 # 6. Install the multi command
 cp command/multi.md ~/.config/opencode/command/
