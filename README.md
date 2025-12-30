@@ -4,67 +4,105 @@ Open Code is an open-source coding tool that supports almost any model in the ma
 
 This repository contains agent templates and command configurations for running parallel agents in the Open Code system.
 
-## Setup Instructions
+## Quick Setup
 
-### Option 1: Clone the Repository
 ```bash
-git clone <repository-url>
-cd opencode-prallel-agents
+# 1. Clone the repository
+git clone https://github.com/aptdnfapt/opencode-parallel-agents
+cd opencode-parallel-agents
+
+# 2. Install opencode globally (if you haven't already)
+# Follow instructions at https://github.com/sst/opencode/
+
+# 3. List available models from cache
+jq -r 'to_entries[] | .key as $provider | .value.models | keys[] | select(contains("claude") or contains("deepseek") or contains("qwen") or contains("grok") or contains("glm") or contains("gpt") or contains("gemini")) | $provider + "/" + .' ~/.cache/opencode/models.json
+
+# Quick model search (enter model name when prompted) make sure to use bash
+read -p "Search model: " term; jq -r 'to_entries[] | .key as $provider | .value.models | keys[] | select(contains("'"$term"'")) | $provider + "/" + .' ~/.cache/opencode/models.json | head -20
+
+# 4. Pick the models you want and edit the template files and copy agent templates
+# Example: 
+cp agent/template.md ~/.config/opencode/agent/deepseek.md
+
+# 5. Edit each agent file - change model in frontmatter
+# For OpenRouter: model: openrouter/provider/model_name
+# For OpenAI: model: openai/model_name
+# For DeepSeek: model: deepseek/model_name
+# For Qwen: model: qwen/model_name
+
+# 6. Install the multi command
+cp command/multi.md ~/.config/opencode/command/
+
+# 7. Restart opencode
+# Now try: /multi @deepseek @claude @qwen analyze this codebase
 ```
 
-### Option 2: Copy Files Manually
-1. Copy the `template.md` from the `agent/` folder
-2. Copy the `multi.md` from the `command/` folder
-3. Place them in your home config folder at `~/.config/opencode/agent/` and `~/.config/opencode/command/`
+### Alternative: Project-Specific Setup
 
-## Configuration
+```bash
+# Instead of global config, use project-specific
+mkdir -p .opencode/agent .opencode/command
+cp agent/template.md .opencode/agent/deepseek.md
+cp command/multi.md .opencode/command/
 
-### Agent Setup
-1. Copy `agent/template.md` and rename it (e.g., `myagent.md`)
-2. Edit the model name in the frontmatter with the full endpoint model name:
+# Edit the model fields in each agent file, then restart opencode
+```
 
-**For Open Router:**
+## Configuration Examples
+
+### Agent Template (agent/template.md)
 ```yaml
-model: openrouter/provider/model_name
+---
+name: your_agent_name
+model: openrouter/anthropic/claude-3.5-sonnet
+---
+
+## Agent Instructions
+You are a helpful coding assistant...
 ```
 
-**For OpenAI:**
+### DeepSeek Example
 ```yaml
-model: openai/model_name
+---
+name: deepseek
+model: deepseek/deepseek-chat
+---
+
+## DeepSeek Analysis
+Analyze the codebase thoroughly...
 ```
 
-**For DeepSeek:**
+### Claude Example
 ```yaml
-model: deepseek/model_name
+---
+name: claude
+model: openrouter/anthropic/claude-3.5-sonnet
+---
+
+## Claude Analysis
+Focus on architecture and best practices...
 ```
 
-**For ZAI:**
-```yaml
-model: zai/model_name
+## Using the Multi Command
+
+The `/multi` command runs multiple agents in parallel based on what you specify in your prompt:
+
+```
+/multi @deepseek @deepseek @deepseek analyze this function
+# Runs 3 DeepSeek agents in parallel
+
+/multi @claude @deepseek @qwen fix this bug
+# Runs Claude, DeepSeek, and Qwen agents in parallel
+
+/multi @glm @grok @qwen @deepseek optimize this code
+# Runs all four agents in parallel
 ```
 
-### Multi-Agent Setup
-1. Rename your agent files in the `agent/` folder
-2. The agents are now specified directly in your prompt using `@` signs (no need to edit `command/multi.md`)
-3. When using `/multi`, mention the agents you want to run in parallel in your initial prompt
-
-
-## Important Links
-
-### Open Code
-- [Open Code GitHub](https://github.com/sst/opencode/)
-- [Agents Documentation](https://opencode.ai/docs/agents/)
-- [Commands Documentation](https://opencode.ai/docs/commands/)
-
-### Free Qwen Proxy
-- [Qwen Code OAI Proxy (2000 req free)](https://github.com/aptdnfapt/qwen-code-oai-proxy)
-  - Setup as `qwen.md` in agents folder
-
-## Usage
-To use this, you need to restart opencode if you haven't already and then run the slash command with a prompt such as:
-```
-/multi @glm @deepseek @qwen we are facing x issue can you check whats wrong?
-```
+**How it works:**
+- Mention ANY agent name with `@agentname`
+- Each mention creates one instance of that agent
+- Mention the same agent multiple times for multiple parallel instances
+- The multi-agent orchestrator collects all responses and synthesizes a combined plan
 
 **Important:** You must mention the agent names in your initial prompt using `@` signs. The multi-agent command will run only the agents you specify in parallel, allowing you to leverage multiple model perspectives simultaneously for more comprehensive analysis and better solutions.
 
@@ -79,3 +117,16 @@ hey give this task to @agentname and tell him to fix this. give him detail info 
 ```
 
 Replace `@agentname` with the actual agent name (e.g., `@deepseek`, `@glm`, `@qwen`).
+
+## Important Links
+
+- [Open Code GitHub](https://github.com/sst/opencode/)
+- [Agents Documentation](https://opencode.ai/docs/agents/)
+- [Commands Documentation](https://opencode.ai/docs/commands/)
+
+## Free Model Options
+
+- **Qwen**: [Qwen Code OAI Proxy](https://github.com/aptdnfapt/qwen-code-oai-proxy) (2000 free requests)
+- **DeepSeek**: Via OpenRouter or DeepSeek API
+- **GLM**: Various providers via OpenRouter
+- **Grok**: Via xAI API or OpenRouter

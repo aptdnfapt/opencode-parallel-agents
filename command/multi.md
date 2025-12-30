@@ -7,7 +7,9 @@ agent: build
 
 • Based on this info(user said prompt): $ARGUMENTS
 • If the info is about fixing something in codebase or adding a new feature:
-  - Run the agents that user mentions  in parallel (so yes you have to make several tool call at once )
+  - Count how many times each @agentname appears in the user's prompt (e.g., @glm @glm @glm means 3 GLM agents)
+  - Make separate Task tool calls in ONE message with subagent_type="@agentname" for each mention
+  - Example: If user says "/multi @glm @glm @deepseek", make 3 Task calls - 2 with subagent_type="@glm" and 1 with subagent_type="@deepseek"
   - Give them this STRICT instruction: "You are capable agents but for THIS SPECIFIC TASK you must NOT make any file changes, edits, or modifications. Your job is to analyze the codebase and create ONLY a detailed plan with code blocks showing where edits need to be made with line numbers. DO NOT execute any file operations - just provide the plan."
   - Give them task to analyze codebase and come up with a plan (detailed plan with code blocks and places where edits need to be made with line numbers) to fix the issue or add the feature
 
